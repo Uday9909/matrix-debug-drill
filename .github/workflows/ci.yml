@@ -12,10 +12,27 @@ jobs:
   test:
     runs-on: ${{ matrix.os }}
     strategy:
+      # fail-fast: false — a compatibility matrix must run every OS × Node
+      # combination to completion. Cancelling the remaining jobs on the first
+      # failure hides which environments work and which don't, and would
+      # suppress the experimental Node 24 results. Full visibility across every
+      # environment is the whole point of the matrix.
       fail-fast: false
       matrix:
         os: [ubuntu-latest, windows-latest]
         node: [18, 20, 22]
+        include:
+          # Node 24 is experimental: it may or may not pass. That must not fail
+          # the overall workflow — continue-on-error is true only for these.
+          - os: ubuntu-latest
+            node: 24
+            experimental: true
+          - os: windows-latest
+            node: 24
+            experimental: true
+    # True only for the experimental Node 24 combinations (matrix.experimental
+    # is undefined for the base Node 18/20/22 combos, so `== true` is false).
+    continue-on-error: ${{ matrix.experimental == true }}
     steps:
       - uses: actions/checkout@v4
       - name: Print environment info for debugging
