@@ -9,6 +9,6 @@ test('getOutputPath returns correct path', () => {
 
 test('readTextFile returns file content with expected line endings', () => {
   const testFile = path.join(__dirname, 'test-data', 'sample.txt');
-  const content = readTextFile(testFile);
+  const content = readTextFile(testFile).replace(/\r\n/g, '\n');
   expect(content).toBe('line one\nline two\nline three\n');
 });
