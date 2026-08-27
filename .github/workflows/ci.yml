@@ -2,6 +2,7 @@ name: Matrix CI
 
 # Compatibility matrix across OS and Node versions
 on:
+  workflow_dispatch:
   push:
     branches: ['**']
   pull_request:
