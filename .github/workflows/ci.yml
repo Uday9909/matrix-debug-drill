@@ -1,5 +1,6 @@
 name: Matrix CI
 
+# Compatibility matrix across OS and Node versions
 on:
   push:
     branches: ['**']
